@@ -1,0 +1,21 @@
+{
+    "name": "Grand Chola",
+    "short_name": "Grand Chola - Manchester UK",
+    "description": "Grand Chola | Manchester | The Finest Indian Cuisine | Indian Restaurant, Order online, Reserve A Table &amp; Dine With Us...",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f9f3f0",
+    "theme_color": "#f9f3f0",
+    "icons": [
+      {
+        "src": "/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

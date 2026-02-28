@@ -1,0 +1,64 @@
+{
+"Items":[
+    {
+        "id":1,
+        "name":"Christmas Offer",
+        "imgSrc":"/images/christmas.avif",
+        "rating":4.1,
+        "priceRange":"110-280",
+        "isVeg":true,
+        "isNonVeg": true,
+        "duration":25
+    },
+    {
+        "id":2,
+        "name":"New year Spl",
+        "imgSrc":"/images/newyear.jpg",
+        "rating":4.3,
+        "priceRange":"70-190",
+        "isVeg":true,
+        "isNonVeg": false,
+        "duration":30
+    },
+    {
+        "id":3,
+        "name":"Biryani Offer",
+        "imgSrc":"/images/biryani.jpg",
+        "rating":3.8,
+        "priceRange":"90-300",
+        "isVeg":false,
+        "isNonVeg": true,
+        "duration":40
+    },
+    {
+        "id":4,
+        "name":"Combo Offers",
+        "imgSrc":"/images/combo.jpeg",
+        "rating":4.8,
+        "priceRange":"100-210",
+        "isVeg":true,
+        "isNonVeg": true,
+        "duration":40
+    },
+    {
+        "id":5,
+        "name":"Veg Offers",
+        "imgSrc":"/images/veg.jpg",
+        "rating":5.0,
+        "priceRange":"49-100",
+        "isVeg":true,
+        "isNonVeg": true,
+        "duration":35
+    },
+    {
+        "id":6,
+        "name":"Party Orders",
+        "imgSrc":"/images/party.jpg",
+        "rating":5.0,
+        "priceRange":"49-100",
+        "isVeg":true,
+        "isNonVeg": true,
+        "duration":35
+    }
+]
+} 

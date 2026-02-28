@@ -1,0 +1,139 @@
+{
+    "Menus":[
+        {
+            "id": 1,
+            "title": "Biryani",
+            "content": "biryani",
+            "imgSrc": "/images/festival.webp",
+            "MenuItems": [
+                {
+                    "id": 101,
+                    "name": "Chicken Biryani",
+                    "onlinePrice":300,
+                    "dineinPrice": 200,
+                    "duration": 25,
+                    "favourite": false,
+                    "imgSrc":"/images/biryani/chicken2.jpg",
+                    "isVeg":false
+                },
+                {
+                    "id": 102,
+                    "name": "Veg Biryani",
+                    "onlinePrice":250,
+                    "dineinPrice": 150,
+                    "duration": 20,
+                    "favourite": false,
+                    "imgSrc":"/images/biryani/veg.jpg",
+                    "isVeg":true
+                },
+                {
+                    "id": 103,
+                    "name": "Mutton Biryani",
+                    "onlinePrice":350,
+                    "dineinPrice": 350,
+                    "duration": 20,
+                    "favourite": false,
+                    "imgSrc":"/images/biryani/lamb.jpg",
+                    "isVeg":false
+                },
+                {
+                    "id": 104,
+                    "name": "Prawn Biryani",
+                    "onlinePrice":350,
+                    "dineinPrice": 320,
+                    "duration": 20,
+                    "favourite": false,
+                    "imgSrc":"/images/biryani/prawn.jpg",
+                    "isVeg":false
+                },
+                {
+                    "id": 105,
+                    "name": "Egg Biryani",
+                    "onlinePrice":350,
+                    "dineinPrice": 200,
+                    "duration": 20,
+                    "favourite": false,
+                    "imgSrc":"/images/biryani/egg.jpg",
+                    "isVeg":false
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Fried Rice",
+            "content": "fried rice",
+            "imgSrc": "/images/veg-starter.webp",
+            "MenuItems": [
+                {
+                    "id": 201,
+                    "name": "Veg Fried Rice",
+                    "onlinePrice":300,
+                    "dineinPrice": 220,
+                    "duration": 35,
+                    "favourite": false,
+                    "imgSrc":"/images/veg-starter.webp",
+                    "isVeg":true
+                },
+                {
+                    "id": 202,
+                    "name": "Chicken Fried Rice",
+                    "onlinePrice":300,
+                    "dineinPrice": 250,
+                    "duration": 25,
+                    "favourite": false,
+                    "imgSrc":"/images/veg-starter.webp",
+                    "isVeg":false
+                },
+                {
+                    "id": 203,
+                    "name": "Prawn Fried Rice",
+                    "onlinePrice":300,
+                    "dineinPrice": 300,
+                    "duration": 25,
+                    "favourite": false,
+                    "imgSrc":"/images/veg-starter.webp",
+                    "isVeg":false
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Meals",
+            "content": "Meals",
+            "imgSrc": "/images/veg-starter.webp",
+            "MenuItems": [
+                {
+                    "id": 301,
+                    "name": "Veg Meals",
+                    "onlinePrice":300,
+                    "dineinPrice": 220,
+                    "duration": 35,
+                    "favourite": false,
+                    "imgSrc":"/images/veg-starter.webp",
+                    "isVeg":true
+                },
+                {
+                    "id": 302,
+                    "name": "Non-Veg Meals",
+                    "onlinePrice":300,
+                    "dineinPrice": 250,
+                    "duration": 25,
+                    "favourite": false,
+                    "imgSrc":"/images/veg-starter.webp",
+                    "isVeg":false
+                },
+                {
+                    "id": 303,
+                    "name": "Prawn Fried Rice",
+                    "onlinePrice":300,
+                    "dineinPrice": 300,
+                    "duration": 25,
+                    "favourite": false,
+                    "imgSrc":"/images/veg-starter.webp",
+                    "isVeg":false
+                }
+            ]
+        }
+        
+    ]
+}
