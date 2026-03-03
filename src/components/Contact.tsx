@@ -86,7 +86,7 @@ const Contact = () => {
                                 </svg>
                             </div>
                             {/* <h3 className="text-lg font-medium text-gray-900">Phone</h3> */}
-                            <p className="mt-2 text-amber-700">01613992138</p>
+                            <p className="mt-2 text-amber-700">07775731723</p>
                         </div>
 
                         <div>
