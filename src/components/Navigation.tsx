@@ -1,13 +1,15 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { AppState } from '@/store/reducers';
 import { Home, Search, ShoppingCart, UtensilsCrossed,} from 'lucide-react';
 
 const MenuBar = ({selectedItems}:any) => {
   const router = useRouter();
-  const [activeItem, setActiveItem] = useState('home');
+  const pathname = usePathname();
+  const activeItem = pathname === '/menus' || pathname === '/menus/' ? 'offers' : 'browse';
   // const [isItems, setItems] = useState(() => {
   //   const items = localStorage.getItem("selectedItems");
   //   return items ? JSON.parse(items) : selectedItems;
@@ -21,9 +23,8 @@ const MenuBar = ({selectedItems}:any) => {
     { icon: UtensilsCrossed, label: 'Menu', id: 'offers', route: '/menus' },
   ];
 
-  const handleClick = (id: string, route: string) => {
-    setActiveItem(id);
-    router.push(route);
+  const handleCartClick = () => {
+    router.push('/cart');
   };
 
   useEffect(()=>{
@@ -36,7 +37,7 @@ const MenuBar = ({selectedItems}:any) => {
         {/* Center Launch Button */}
         <div className="absolute left-1/2 -translate-x-1/2 -top-5">
           <button
-            onClick={() => handleClick('cart', '/cart')}
+            onClick={handleCartClick}
             className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors"
           >
             <ShoppingCart className="w-6 h-6 text-white" />
@@ -56,27 +57,21 @@ const MenuBar = ({selectedItems}:any) => {
             const isActive = activeItem === item.id;
 
             return (
-              <button
+              <Link
                 key={item.label}
-                onClick={() => handleClick(item.id, item.route)}
+                href={item.route}
                 className="flex flex-col items-center space-y-1"
               >
                 <Icon
-                  className={`w-5 h-5 
+                  className={`w-5 h-5
                     ${isActive ? 'text-emerald-700' : 'text-gray-500'}
                     `}
                 />
-                {item.label === 'cart' &&
-                  <div className="px-1 py-0.5 bg-teal-500 min-w-5 rounded-full text-center text-white text-xs absolute -top-1 translate-x-1/4 text-nowrap">
-                    <div className="absolute top-0 start-0 rounded-full -z-10 animate-ping bg-teal-200 w-full h-full"></div>
-                    {isData?.length || 0}
-                  </div>
-                }
                 <span className={`text-sm ${isActive ? 'text-emerald-700' : 'text-gray-500'
                   }`}>
                   {item.label}
                 </span>
-              </button>
+              </Link>
             );
           })}
         </nav>

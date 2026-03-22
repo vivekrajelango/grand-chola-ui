@@ -97,8 +97,33 @@ function Admin() {
     }
 
     const handleReorder = async (itemID: string, direction: 'up' | 'down') => {
-        await dispatch(reorderMenuItem(routePath.REORDER_MENU_ITEM, { itemID, direction }));
-        await dispatch(getMenuListfromApi(routePath.GET_ADMIN_MENU_LIST, ""));
+        // Optimistic local swap for instant UI feedback
+        const currentIndex = Menus.findIndex((m: any) => m.itemID === itemID);
+        if (currentIndex === -1) return;
+
+        const currentItem = Menus[currentIndex];
+        const categoryID = currentItem.categoryID;
+
+        // Find the adjacent item in the same category
+        let swapIndex = -1;
+        if (direction === 'up') {
+            for (let i = currentIndex - 1; i >= 0; i--) {
+                if (Menus[i].categoryID === categoryID) { swapIndex = i; break; }
+            }
+        } else {
+            for (let i = currentIndex + 1; i < Menus.length; i++) {
+                if (Menus[i].categoryID === categoryID) { swapIndex = i; break; }
+            }
+        }
+
+        if (swapIndex === -1) return; // Already at boundary
+
+        const updatedMenus = [...Menus];
+        [updatedMenus[currentIndex], updatedMenus[swapIndex]] = [updatedMenus[swapIndex], updatedMenus[currentIndex]];
+        setMenus(updatedMenus);
+
+        // Sync to backend
+        dispatch(reorderMenuItem(routePath.REORDER_MENU_ITEM, { itemID, direction }));
     }
 
     const addSaveHandler = async (item: any) => {
@@ -226,19 +251,19 @@ function Admin() {
             <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
             {activeTab === 'orders' &&
                 <>
-                    <div className='flex flex-col items-end justify-center mt-24 p-3 text-gray-600'>
-                        <div className="flex flex-row w-full justify-between items-center gap-2">
+                    <div className='flex flex-col mt-20 p-3 text-gray-600 h-[calc(100vh-80px)]'>
+                        <div className="flex flex-row w-full justify-between items-center gap-2 flex-shrink-0">
                             <div className="font-bold">{dayjs().format(DateFormats.DAY)} : {currentTimeRef.current}</div>
-                            
-                            <div className="flex items-center justify-center rounded-lg w-10 h-10 p-1 bg-purple-500 mb-4 ">
+
+                            <div className="flex items-center justify-center rounded-lg w-10 h-10 p-1 bg-purple-500">
                                 <RefreshCcw size={24} className="text-white" onClick={refreshOrder} />
                             </div>
                         </div>
                         {Orders?.length ?
-                            <div className="bg-gray-50 w-full flex items-center justify-center">
+                            <div className="bg-gray-50 w-full flex-1 overflow-y-auto mt-2">
                                 <Accordion items={Orders} updateStatus={handleStatus} />
                             </div>
-                            : <div className="bg-gray-50 w-full flex items-center justify-center">
+                            : <div className="bg-gray-50 w-full flex items-center justify-center flex-1">
                                 Refreshing...
                             </div>
                         }

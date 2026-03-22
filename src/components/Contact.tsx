@@ -135,6 +135,8 @@ const Contact = () => {
                                 allowFullScreen
                                 aria-hidden="false"
                                 tabIndex={0}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
                                 title="Company Location Map"
                             />
                         </div>

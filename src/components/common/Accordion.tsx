@@ -65,7 +65,7 @@ const Accordion = ({ items, updateStatus }: any) => {
 
 
     return (
-        <div className="w-full max-w-md mx-auto overflow-y-scroll">
+        <div className="w-full max-w-md mx-auto">
             {items
                 // .filter((item: any) => dayjs(item.createdAt).isSame(dayjs(), 'day'))
                 .sort((a: any, b: any) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())

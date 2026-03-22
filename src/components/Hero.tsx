@@ -2,10 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const Hero = () => {
-  const router = useRouter();
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative pt-16">
@@ -38,21 +37,12 @@ const Hero = () => {
           <p className="text-lg leading-6 text-gray-200 mb-6 drop-shadow-md">
             Experience the bold, fiery flavors of Chettinad cuisine crafted with age-old recipes and authentic spices.
           </p>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-block"
+          <Link
+            href="/menus"
+            className="inline-flex h-12 w-32 text-1xl animate-shimmer items-center justify-center rounded-md border border-pink-500 bg-[linear-gradient(110deg,#fd1d1d,30%,#f56040,50%,#fcaf45,70%,#bc2a8d)] bg-[length:200%_100%] px-3 font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-white"
           >
-            <button 
-              onClick={()=>router.push('/menus')}
-              className="inline-flex h-12 w-32 text-1xl animate-shimmer items-center justify-center rounded-md border border-pink-500 bg-[linear-gradient(110deg,#fd1d1d,30%,#f56040,50%,#fcaf45,70%,#bc2a8d)] bg-[length:200%_100%] px-3 font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-white">Place order</button>
-            {/* <a
-              onClick={()=>router.push('/menus')}
-              className="bg-yellow-200 font-semibold text-black shadow-lg text-1xl px-8 py-3 rounded-full font-medium hover:bg-yellow-700 transition-colors"
-            >
-              Order now
-            </a> */}
-          </motion.div>
+            Place order
+          </Link>
         </motion.div>
 
       {/* <motion.div

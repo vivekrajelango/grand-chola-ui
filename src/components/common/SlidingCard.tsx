@@ -11,6 +11,12 @@ import Card from './Card';
 import AddOns from './AddOns';
 // import DetailsPage from '@/app/details/page';
 
+const getImageUrl = (imgSrc: string) => {
+  if (!imgSrc) return '';
+  if (imgSrc.startsWith('data:') || imgSrc.startsWith('http')) return imgSrc;
+  return `https://vivek-295524865.imgix.net${imgSrc}`;
+};
+
 function SlidingCard({ menus }: any) {
   const dispatch = useDispatch();
   const cartDetails = useSelector((state: AppState) => state.user.cartDetails);
@@ -141,7 +147,7 @@ function SlidingCard({ menus }: any) {
                   <div className="inline-block px-2.5" key={index}>
                     <div className="w-64 h-52 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"
                     >
-                      <section ref={sectionRef} className="relative w-full h-32 bg-cover bg-center" style={{ backgroundImage: `url(https://vivek-295524865.imgix.net${item.imgSrc})` }}>
+                      <section ref={sectionRef} className="relative w-full h-32 bg-cover bg-center" style={{ backgroundImage: `url(${getImageUrl(item.imgSrc)})` }}>
                         <div className="absolute inset-0 bg-black bg-opacity-20"></div> 
                         <div className="absolute inset-0 flex flex-col justify-between p-4">
                           {item.offer !== "0" && <div className="flex items-center justify-between">

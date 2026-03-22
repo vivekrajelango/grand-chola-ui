@@ -47,11 +47,14 @@ const Menus: React.FC = () => {
     dispatch(filteredItems(filteredMenus))
   }
 
+  const [isMenuFetched, setIsMenuFetched] = useState(false);
+
   useEffect(() => {
     if (getMenuList.length) {
       setMenus(getMenuList);
-    } else {
-      router.push('/');
+    } else if (!isMenuFetched) {
+      dispatch(getMenuListfromApi(routePath.GET_MENU_LIST, ""));
+      setIsMenuFetched(true);
     }
   }, [getMenuList])
 

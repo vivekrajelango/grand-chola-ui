@@ -14,6 +14,12 @@ import AddOns from './AddOns';
 
 
 
+const getImageUrl = (imgSrc: string) => {
+  if (!imgSrc) return '';
+  if (imgSrc.startsWith('data:') || imgSrc.startsWith('http')) return imgSrc;
+  return `https://vivek-295524865.imgix.net${imgSrc}`;
+};
+
 function MenuList({ menus }: any) {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState(0);
@@ -180,7 +186,7 @@ function MenuList({ menus }: any) {
                   <div
                     className={`relative ml-4 w-32 h-32 rounded-lg bg-no-repeat ${item.visible ? 'grayscale-0' : 'grayscale'} bg-cover bg-center`}
                     style={{
-                      backgroundImage: `url(https://vivek-295524865.imgix.net${item.imgSrc})`,
+                      backgroundImage: `url(${getImageUrl(item.imgSrc)})`,
                       boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}
                   >
@@ -252,7 +258,7 @@ function MenuList({ menus }: any) {
                   <div className="inline-block px-2.5" key={index}>
                     <div className="w-64 h-52 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"
                     >
-                      <section ref={sectionRef} className="relative w-full h-32 bg-cover bg-center" style={{ backgroundImage: `url(https://vivek-295524865.imgix.net${item.imgSrc})` }}>
+                      <section ref={sectionRef} className="relative w-full h-32 bg-cover bg-center" style={{ backgroundImage: `url(${getImageUrl(item.imgSrc)})` }}>
                         <div className="absolute inset-0 bg-black bg-opacity-20"></div> 
                         <div className="absolute inset-0 flex flex-col justify-between p-4">
                           {item.offer !== "0" && <div className="flex items-center justify-between">

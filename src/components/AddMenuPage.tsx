@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { ImagePlus, X } from 'lucide-react';
+import { compressImage } from '@/utils/imageUtils';
 
 const defaultForm = {
     name: '',
@@ -15,10 +17,31 @@ const defaultForm = {
 
 function AddMenuPage({ saveHandler, categories }: any) {
     const [form, setForm] = useState({ ...defaultForm });
+    const [preview, setPreview] = useState<string | null>(null);
+    const fileRef = useRef<HTMLInputElement>(null);
 
     const changeHandler = (e: any) => {
         const { name, value, type, checked } = e.target;
         setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+            const base64 = await compressImage(file);
+            setForm({ ...form, imgSrc: base64 });
+            setPreview(base64);
+        } catch (err) {
+            console.error('Image compression failed:', err);
+        }
+    };
+
+    const removeImage = () => {
+        setForm({ ...form, imgSrc: '' });
+        setPreview(null);
+        if (fileRef.current) fileRef.current.value = '';
     };
 
     const formSubmit = (e: any) => {
@@ -26,6 +49,8 @@ function AddMenuPage({ saveHandler, categories }: any) {
         if (!form.name || !form.categoryID || !form.onlinePrice) return;
         saveHandler(form);
         setForm({ ...defaultForm });
+        setPreview(null);
+        if (fileRef.current) fileRef.current.value = '';
     };
 
     return (
@@ -98,15 +123,30 @@ function AddMenuPage({ saveHandler, categories }: any) {
                         />
                     </div>
                     <div className="flex-1">
-                        <label className="block mb-1 text-sm font-medium text-gray-900">Image URL</label>
+                        <label className="block mb-1 text-sm font-medium text-gray-900">Image</label>
                         <input
-                            type="text"
-                            name="imgSrc"
-                            placeholder="https://..."
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            value={form.imgSrc}
-                            onChange={changeHandler}
+                            ref={fileRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
                         />
+                        {preview ? (
+                            <div className="relative w-20 h-20">
+                                <img src={preview} alt="preview" className="w-20 h-20 object-cover rounded-lg border border-gray-300" />
+                                <button type="button" onClick={removeImage} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5">
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={() => fileRef.current?.click()}
+                                className="flex items-center gap-2 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg px-3 py-2.5 hover:bg-gray-100"
+                            >
+                                <ImagePlus size={16} /> Upload
+                            </button>
+                        )}
                     </div>
                 </section>
                 <div>
