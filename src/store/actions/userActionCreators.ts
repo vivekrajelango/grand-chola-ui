@@ -111,6 +111,14 @@ export const deleteMenuItem = createAsyncAction(
   }
 );
 
+export const reorderMenuItem = createAsyncAction(
+  userDetailsTypes.REORDER_MENU_ITEM,
+  async (routePath, data) => {
+    const response = await postData(routePath, data);
+    return response;
+  }
+);
+
 
 
 

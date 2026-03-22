@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { AppState } from "@/store/reducers";
 import dayjs from 'dayjs';
-import { getMenuListfromApi, updateItemById, getRestaurantVisibility, updateRestaurantVisibility, getAllOrders, updateOrderStatus, addMenuItem, deleteMenuItem, getCategoryListfromApi } from "@/store/actions";
+import { getMenuListfromApi, updateItemById, getRestaurantVisibility, updateRestaurantVisibility, getAllOrders, updateOrderStatus, addMenuItem, deleteMenuItem, reorderMenuItem, getCategoryListfromApi } from "@/store/actions";
 import { routePath } from "@/constants/api";
 import Table from "@/components/common/Table";
 import { DateFormats, MenuColumns, OrderColumns } from "@/constants/constants";
@@ -94,6 +94,11 @@ function Admin() {
         await dispatch(deleteMenuItem(routePath.DELETE_MENU_ITEM, { itemID: menuData.itemID }));
         await dispatch(getMenuListfromApi(routePath.GET_ADMIN_MENU_LIST, ""));
         setLoader(false);
+    }
+
+    const handleReorder = async (itemID: string, direction: 'up' | 'down') => {
+        await dispatch(reorderMenuItem(routePath.REORDER_MENU_ITEM, { itemID, direction }));
+        await dispatch(getMenuListfromApi(routePath.GET_ADMIN_MENU_LIST, ""));
     }
 
     const addSaveHandler = async (item: any) => {
@@ -257,6 +262,7 @@ function Admin() {
                                 data={Menus}
                                 columns={MenuColumns}
                                 onRowClick={handleMenuById}
+                                onReorder={handleReorder}
                                 handleSort={handleSort}
                                 sortConfig={sortConfig}
                             />

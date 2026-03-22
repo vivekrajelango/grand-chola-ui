@@ -1,5 +1,6 @@
 import React from 'react';
 import ToggleSwitch from './ToggleSwitch';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface TableColumn {
     label: string;
@@ -14,19 +15,25 @@ interface TableProps {
     sortConfig?: any;
     handleSort?: any;
     onRowClick?: (item: any) => void;
+    onReorder?: (itemID: string, direction: 'up' | 'down') => void;
     handlePageChange?: any;
     currentPage?:any;
     totalPages?:any;
     footer?:boolean;
 }
 
-const Table = ({ data,fullData, columns, sortConfig, handleSort, onRowClick, handlePageChange, currentPage, totalPages,footer=true }:TableProps) => {
+const Table = ({ data,fullData, columns, sortConfig, handleSort, onRowClick, onReorder, handlePageChange, currentPage, totalPages,footer=true }:TableProps) => {
 
     return (
         <>
             <table className="min-w-full bg-white text-gray-500 border border-gray-200">
                 <thead>
                     <tr className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500">
+                        {onReorder && (
+                            <th className="px-2 py-1 text-center text-md bg-gray-600 font-medium text-white">
+                                Order
+                            </th>
+                        )}
                         {columns.map((column, index) => (
                             <th
                                 key={index}
@@ -50,13 +57,31 @@ const Table = ({ data,fullData, columns, sortConfig, handleSort, onRowClick, han
                             className="hover:bg-gray-50 cursor-pointer"
                             onClick={() => onRowClick?.(item)}
                         >
+                            {onReorder && (
+                                <td className="px-1 py-1 text-center">
+                                    <div className="flex flex-col items-center gap-0.5">
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); onReorder(item.itemID, 'up'); }}
+                                            className="p-0.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                        >
+                                            <ChevronUp size={16} />
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); onReorder(item.itemID, 'down'); }}
+                                            className="p-0.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                        >
+                                            <ChevronDown size={16} />
+                                        </button>
+                                    </div>
+                                </td>
+                            )}
                             {columns.map((column) => (
                                 <td key={column.dataKey} className="px-4 py-2 text-sm text-gray-600">
                                     {/* {item[column.dataKey]} */}
-                                    {column.dataKey==='visible' ? 
-                                        (item[column.dataKey]===true ? 
+                                    {column.dataKey==='visible' ?
+                                        (item[column.dataKey]===true ?
                                             <div className='bg-green-300 rounded-full w-5 h-5' />
-                                            : <div className='bg-red-300 rounded-full w-5 h-5' />) 
+                                            : <div className='bg-red-300 rounded-full w-5 h-5' />)
                                         : item[column.dataKey] }
                                 </td>
                             ))}
