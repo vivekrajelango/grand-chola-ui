@@ -188,13 +188,6 @@ const Cart = () => {
                     >
                         <div className="flex text-xl pl-8">Order Receipt</div>
                         <div className="flex flex-row gap-3 pe-3" >
-                            <div 
-                                onClick={()=>router.push('/voice')}
-                                className="w-[30px] h-[30px] bg-cover"
-                                style={{
-                                    backgroundImage: 'url("/mic.gif")',
-                                }}
-                            ></div>
                             <Pencil
                                 className="text-gray-700"
                                 onClick={() => {

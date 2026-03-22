@@ -10,8 +10,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const router = useRouter();
   if (!pathname) return null;
-  const shouldShowMenuBar = !pathname.startsWith('/admin') && !pathname.startsWith('/login') && !pathname.startsWith('/voice');
-  const shouldShowInstallBar = pathname !== '/menus' && !pathname.startsWith('/admin') && !pathname.startsWith('/voice')
+  const shouldShowMenuBar = !pathname.startsWith('/admin') && !pathname.startsWith('/login');
+  const shouldShowInstallBar = pathname !== '/menus' && !pathname.startsWith('/admin')
 
 
   return (

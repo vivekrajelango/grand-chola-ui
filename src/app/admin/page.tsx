@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { AppState } from "@/store/reducers";
 import dayjs from 'dayjs';
-import { getMenuListfromApi, updateItemById, getRestaurantVisibility, updateRestaurantVisibility, getAllOrders, updateOrderStatus, addMenuItem } from "@/store/actions";
+import { getMenuListfromApi, updateItemById, getRestaurantVisibility, updateRestaurantVisibility, getAllOrders, updateOrderStatus, addMenuItem, deleteMenuItem, getCategoryListfromApi } from "@/store/actions";
 import { routePath } from "@/constants/api";
 import Table from "@/components/common/Table";
 import { DateFormats, MenuColumns, OrderColumns } from "@/constants/constants";
@@ -30,6 +30,7 @@ function Admin() {
     const getStatus = useSelector((state: AppState) => state.user.visibilityStatus);
     const getMenuList = useSelector((state: AppState) => state.user.getMenuAPiList);
     const getOrderList = useSelector((state: AppState) => state.user.getOrdersList);
+    const getCategoryList = useSelector((state: AppState) => state.user.getCategoryList);
     // const [currentTime, setCurrentTime] = useState(dayjs().format(DateFormats.DATE_WITH_TIME));
     const currentTimeRef = useRef(dayjs().format(DateFormats.DATE_WITH_TIME));
     
@@ -40,6 +41,7 @@ function Admin() {
     const [activeTab, setActiveTab] = useState('orders');
     const [isOpen, setOpen] = useState(false);
     const [isAddOpen, setAddOpen] = useState(false);
+    const [isDeleteConfirm, setDeleteConfirm] = useState(false);
     const [menuData, setMenuData] = useState<any>(null);
     const [isLoader, setLoader] = useState(false);
     const [sortConfig, setSortConfig] = useState<{
@@ -82,6 +84,16 @@ function Admin() {
         setLoader(false);
         // setActiveTab('menus');
         window.scrollTo(0, scrollPosition);
+    }
+
+    const deleteHandler = async () => {
+        if (!menuData?.itemID) return;
+        setDeleteConfirm(false);
+        setOpen(false);
+        setLoader(true);
+        await dispatch(deleteMenuItem(routePath.DELETE_MENU_ITEM, { itemID: menuData.itemID }));
+        await dispatch(getMenuListfromApi(routePath.GET_ADMIN_MENU_LIST, ""));
+        setLoader(false);
     }
 
     const addSaveHandler = async (item: any) => {
@@ -189,6 +201,12 @@ function Admin() {
     }, [getStatus])
 
     useEffect(() => {
+        if (!getCategoryList || getCategoryList.length === 0) {
+            dispatch(getCategoryListfromApi(routePath.GET_CATEGORIES, ""));
+        }
+    }, []);
+
+    useEffect(() => {
         if (!isMenuFetched && (!getMenuList || getMenuList.length === 0)) {
             dispatch(getMenuListfromApi(routePath.GET_ADMIN_MENU_LIST, ""));
             setIsMenuFetched(true);
@@ -244,11 +262,38 @@ function Admin() {
                             />
                         </div>
                     ) : <p>No data</p>}
-                    <Drawer isShowStatus={isOpen} closeHandler={() => setOpen(!isOpen)} position="bottom" title={menuData?.name || ''}>
+                    <Drawer isShowStatus={isOpen} closeHandler={() => { setOpen(false); setDeleteConfirm(false); }} position="bottom" title={menuData?.name || ''}>
                         <EditPage data={menuData} saveHandler={saveHandler} />
+                        <div className="flex justify-center pb-4">
+                            <button
+                                onClick={() => setDeleteConfirm(true)}
+                                className="w-[40%] text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                        {isDeleteConfirm && (
+                            <div className="mx-4 mb-4 p-4 text-center bg-red-50 rounded-lg border border-red-200">
+                                <p className="mb-3 text-sm text-gray-700">Are you sure you want to delete <strong>{menuData?.name}</strong>?</p>
+                                <div className="flex justify-center gap-3">
+                                    <button
+                                        onClick={() => setDeleteConfirm(false)}
+                                        className="py-2 px-4 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={deleteHandler}
+                                        className="py-2 px-4 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                                    >
+                                        Yes, Delete
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </Drawer>
                     <Drawer isShowStatus={isAddOpen} closeHandler={() => setAddOpen(false)} position="bottom" title="Add New Menu Item">
-                        <AddMenuPage saveHandler={addSaveHandler} />
+                        <AddMenuPage saveHandler={addSaveHandler} categories={getCategoryList} />
                     </Drawer>
                     {/* <ModalPopUp open={isOpen} handleModalClose={() => setOpen(!isOpen)}>
                         <EditPage data={menuData} saveHandler={saveHandler} />

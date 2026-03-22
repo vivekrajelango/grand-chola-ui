@@ -103,6 +103,14 @@ export const addMenuItem = createAsyncAction(
   }
 );
 
+export const deleteMenuItem = createAsyncAction(
+  userDetailsTypes.DELETE_MENU_ITEM,
+  async (routePath, data) => {
+    const response = await postData(routePath, data);
+    return response;
+  }
+);
+
 
 
 

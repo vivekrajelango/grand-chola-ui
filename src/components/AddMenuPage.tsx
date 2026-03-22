@@ -13,7 +13,7 @@ const defaultForm = {
     imgSrc: ''
 };
 
-function AddMenuPage({ saveHandler }: any) {
+function AddMenuPage({ saveHandler, categories }: any) {
     const [form, setForm] = useState({ ...defaultForm });
 
     const changeHandler = (e: any) => {
@@ -44,16 +44,21 @@ function AddMenuPage({ saveHandler }: any) {
                     />
                 </div>
                 <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-900">Category ID <span className="text-red-500">*</span></label>
-                    <input
-                        type="text"
+                    <label className="block mb-1 text-sm font-medium text-gray-900">Category <span className="text-red-500">*</span></label>
+                    <select
                         name="categoryID"
                         required
-                        placeholder="e.g. south_indian"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                         value={form.categoryID}
                         onChange={changeHandler}
-                    />
+                    >
+                        <option value="">Select a category</option>
+                        {categories?.map((cat: any) => (
+                            <option key={cat.categoryID} value={cat.categoryID}>
+                                {cat.title}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <section className="flex flex-row gap-3">
                     <div className="flex-1">
