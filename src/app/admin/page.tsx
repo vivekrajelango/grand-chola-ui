@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { AppState } from "@/store/reducers";
 import dayjs from 'dayjs';
-import { getMenuListfromApi, updateItemById, getRestaurantVisibility, updateRestaurantVisibility, getAllOrders, updateOrderStatus } from "@/store/actions";
+import { getMenuListfromApi, updateItemById, getRestaurantVisibility, updateRestaurantVisibility, getAllOrders, updateOrderStatus, addMenuItem } from "@/store/actions";
 import { routePath } from "@/constants/api";
 import Table from "@/components/common/Table";
 import { DateFormats, MenuColumns, OrderColumns } from "@/constants/constants";
@@ -13,6 +13,7 @@ import TabComponent from "@/components/common/Tabs";
 import LoaderComponent from "@/components/common/Loader";
 import { ModalPopUp } from "@/components/common/Modal";
 import EditPage from "@/components/EditPage";
+import AddMenuPage from "@/components/AddMenuPage";
 import Accordion from "@/components/common/Accordion";
 import { RefreshCcw, RotateCw } from "lucide-react";
 import SearchBar from "@/components/common/SearchBar";
@@ -38,6 +39,7 @@ function Admin() {
     const [Orders, setOrders] = useState<any>(getOrderList);
     const [activeTab, setActiveTab] = useState('orders');
     const [isOpen, setOpen] = useState(false);
+    const [isAddOpen, setAddOpen] = useState(false);
     const [menuData, setMenuData] = useState<any>(null);
     const [isLoader, setLoader] = useState(false);
     const [sortConfig, setSortConfig] = useState<{
@@ -80,6 +82,14 @@ function Admin() {
         setLoader(false);
         // setActiveTab('menus');
         window.scrollTo(0, scrollPosition);
+    }
+
+    const addSaveHandler = async (item: any) => {
+        setAddOpen(false);
+        setLoader(true);
+        await dispatch(addMenuItem(routePath.ADD_MENU_ITEM, { menuItem: item }));
+        await dispatch(getMenuListfromApi(routePath.GET_ADMIN_MENU_LIST, ""));
+        setLoader(false);
     }
 
     const handleVisibilityStatus = () => {
@@ -214,7 +224,15 @@ function Admin() {
             }
             {activeTab === 'menus' &&
                 <div className="mt-20 overflow-y-scroll">
-                    <SearchBar handleSearch={filterText} />
+                    <div className="flex flex-row items-center justify-between px-2">
+                        <SearchBar handleSearch={filterText} />
+                        <button
+                            onClick={() => setAddOpen(true)}
+                            className="ml-2 flex-shrink-0 flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg px-3 py-2"
+                        >
+                            + Add Menu
+                        </button>
+                    </div>
                     {Menus.length ? (
                         <div className="mt-3 p-2">
                             <Table
@@ -228,6 +246,9 @@ function Admin() {
                     ) : <p>No data</p>}
                     <Drawer isShowStatus={isOpen} closeHandler={() => setOpen(!isOpen)} position="bottom" title={menuData?.name || ''}>
                         <EditPage data={menuData} saveHandler={saveHandler} />
+                    </Drawer>
+                    <Drawer isShowStatus={isAddOpen} closeHandler={() => setAddOpen(false)} position="bottom" title="Add New Menu Item">
+                        <AddMenuPage saveHandler={addSaveHandler} />
                     </Drawer>
                     {/* <ModalPopUp open={isOpen} handleModalClose={() => setOpen(!isOpen)}>
                         <EditPage data={menuData} saveHandler={saveHandler} />

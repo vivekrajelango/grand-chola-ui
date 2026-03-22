@@ -95,6 +95,14 @@ export const filteredItems = createAction(
   (data)=>(data)
 )
 
+export const addMenuItem = createAsyncAction(
+  userDetailsTypes.ADD_MENU_ITEM,
+  async (routePath, data) => {
+    const response = await postData(routePath, data);
+    return response;
+  }
+);
+
 
 
 

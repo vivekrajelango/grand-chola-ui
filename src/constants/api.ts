@@ -12,5 +12,6 @@ export const routePath = {
     UPDATE_ITEM_BY_ID: '/api/restaurant/update-items',
     CREATE_ORDER: '/api/restaurant/create-order',
     UPDATE_ORDER_STATUS: '/api/restaurant/update-order-status',
-    GET_ORDERS_LIST: '/api/restaurant/fetch-all-order'
+    GET_ORDERS_LIST: '/api/restaurant/fetch-all-order',
+    ADD_MENU_ITEM: '/api/restaurant/add-menu-item'
   };
